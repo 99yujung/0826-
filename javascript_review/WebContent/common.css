@@ -1,0 +1,86 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+/* 회원목록 */
+#members {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#members td, #members th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#members tr:nth-child(even){background-color: #f2f2f2;}
+
+#members tr:hover {background-color: #ddd;}
+
+#members th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+/*공통*/
+.page_title {
+	font-family: 'Do Hyeon', sans-serif;
+	background-color: yellow;
+}
+
+/* 상세보기 */
+.label {
+	width : 150px;
+	display: inline-block;
+	font-weight: bold;
+}
+
+/* 등록 */
+label {
+	width : 150px;
+	display: inline-block;
+}
+
+.regist input,textarea {
+	color : blue;
+	border: 1px dotted green;	
+}
+ul.search {
+  list-style-type: none;
+  border : 1px solid green;
+}
+
+.search li {
+  display: inline-block;
+}
+
+/* 메뉴 */
+ul.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.menu li {
+  float: left;
+}
+
+.menu li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.menu li a:hover {
+  background-color: #111;
+}
+
+
