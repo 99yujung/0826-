@@ -15,5 +15,15 @@
 <div><span class="label">가입동기</span><span>프로그램스터디</span></div>
 <div><span class="label">성별</span><span>여</span></div>
 <div><span class="label">메일수신여부</span><span>yes</span></div>
+<button type="button" id="btnPage">목록으로</button>
+<script>
+	btnPage.addEventListener("click", goPage );
+	function goPage() {
+		// history.back();
+		// history.go(-1); 이전페이지로 이동
+		// location.href="memberAll.jsp"
+		location.assign("memberAll.jsp")
+	}
+</script>
 </body>
 </html>
