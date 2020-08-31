@@ -13,13 +13,13 @@
 <body>
 <img src="../images/Koala.jpg" id="img1">
 <script>
-	document.addEventListener("mousemove", function(){
+	document.addEventListener("mousemover", function(){
 		console.log(event.button);
 		//if(event.button == 0) {
 		img1.style.left = event.clientX + "px";
 		img1.style.top = event.clientY + "px";
 		//}
-	})
+	});
 	document.addEventListener("keydown", function(){
 		if(event.keyCode == 37) {
 			img1.style.left = ( parseInt(img1.style.left) - 10 ) +"px";
