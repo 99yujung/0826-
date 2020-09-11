@@ -40,7 +40,7 @@ function inputCheck(){
 </script>
 </head>
 <body>
-<% MemberVO member = (MemberVO) session.getAttribute("login"); %>
+<!-- <% MemberVO member = (MemberVO) session.getAttribute("login"); %> -->
 <h3 class="page_title">내 정보 조회</h3>
 	<div class="regist">
 	<form method="post" name="frm" id="frm" 
