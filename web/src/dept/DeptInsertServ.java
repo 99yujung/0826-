@@ -1,4 +1,4 @@
-package library;
+package dept;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,17 +7,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
- * Servlet implementation class LibrarySelectAll
+ * Servlet implementation class DeptInsertServ
  */
-@WebServlet("/library/LibrarySelectAll")
-public class LibrarySelectAll extends HttpServlet {
+@WebServlet("/dept/DeptInsert")
+public class DeptInsertServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LibrarySelectAll() {
+    public DeptInsertServ() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,13 +27,14 @@ public class LibrarySelectAll extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 파라미터 있으면 적고 없으면 생략
+		DeptDAO dao = new DeptDAO();
 		
-		// db 조회
-		MemberDAO dao = 
-		
-		
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
+		DeptVO deptVO = new DeptVO();
+		deptVO.setDepartment_id( Integer.parseInt(request.getParameter("department_id") ) );
+		deptVO.setDepartment_name( request.getParameter("department_name"));
+		dao.insert(deptVO);
+		//전체 조회 서블릿 페이지로 이동
+		response.sendRedirect("deptSelectAll");
 	}
 
 	/**

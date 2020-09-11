@@ -1,6 +1,8 @@
-package library;
+package member;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class LibrarySelectAll
+ * Servlet implementation class MemberSelectAllServ
  */
-@WebServlet("/library/LibrarySelectAll")
-public class LibrarySelectAll extends HttpServlet {
+@WebServlet("/member/memberSelectAll.do")
+public class MemberSelectAllServ extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LibrarySelectAll() {
+    public MemberSelectAllServ() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,13 +28,18 @@ public class LibrarySelectAll extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 파라미터 있으면 적고 없으면 생략
+		//파라미터 있으면 적고 없으면 생략
+	
+		//db 조회
+		MemberDAO dao = new MemberDAO();
+		ArrayList<MemberVO> list = dao.selectAll(null);
 		
-		// db 조회
-		MemberDAO dao = 
+		//결과 저장
+		request.setAttribute("list", list);
 		
+		//뷰페이지로 이동(포워드)
+		request.getRequestDispatcher("memberAll.jsp").forward(request, response);
 		
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
