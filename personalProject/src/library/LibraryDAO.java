@@ -12,21 +12,16 @@ public class LibraryDAO {
 	/*
 	 * create table book_information ( ISBN varchar2(100), name varchar2(20), author
 	 * varchar2(20), publisher varchar2(20), published_date date, book_size
-	 * varchar2(20), primary key (ISBN) );
-	 * 도서코드, 도서명, 저자, 출판사, 출판일자, 책 크기(??)
+	 * varchar2(20), primary key (ISBN) ); 도서코드, 도서명, 저자, 출판사, 출판일자, 책 크기(??)
 	 * 
 	 * =============================
 	 * 
-	 * 수정
-	 * alter table book_information rename column name to title;
-	 * alter table book_information rename to book;
-	 * alter table book drop column book_size;
+	 * 수정 alter table book_information rename column name to title; alter table
+	 * book_information rename to book; alter table book drop column book_size;
 	 * alter table book rename column ISBN to ISBN;
 	 * 
-	 * 테이블명 book_information rename to book
-	 * 컬럼명 name to title,
-	 * 		ISBN to ISBN
-	 * 컬럼 삭제 book_size
+	 * 테이블명 book_information rename to book 컬럼명 name to title, ISBN to ISBN 컬럼 삭제
+	 * book_size
 	 */
 
 	// 전역 변수
@@ -77,8 +72,7 @@ public class LibraryDAO {
 		ResultSet rs = null;
 		try {
 			conn = ConnectionManager.getConnnect();
-			String sql = "SELECT ISBN, TITLE, AUTHOR, PUBLISHER, PUBLISHED_DATE "
-					+ " FROM book";
+			String sql = "SELECT ISBN, TITLE, AUTHOR, PUBLISHER, PUBLISHED_DATE " + " FROM book";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, libraryVO.getISBN());
 			rs = pstmt.executeQuery();
@@ -120,34 +114,35 @@ public class LibraryDAO {
 
 	// 수정
 	public void update(LibraryVO libraryVO) {
-			try {
-				conn = ConnectionManager.getConnnect();
-				String sql = "UPDATE book SET  TITLE = ?, AUTHOR = ?, "
-							+ "PUBLISHER = ?, PUBLISHED_DATE = ? where ISBN = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, libraryVO.getISBN());
-				pstmt.setString(2, libraryVO.getTitle());
-				pstmt.setString(3, libraryVO.getAuthor());
-				pstmt.setString(4, libraryVO.getPublisher());
-				pstmt.setString(5, libraryVO.getPublished_date());
-				int r = pstmt.executeUpdate();
-				System.out.println(r + " 건이 수정됨");
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				ConnectionManager.close(null, pstmt, conn);
-			}
+		try {
+			conn = ConnectionManager.getConnnect();
+			String sql = "UPDATE book SET  TITLE = ?, AUTHOR = ?, "
+					+ "PUBLISHER = ?, PUBLISHED_DATE = ? where ISBN = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, libraryVO.getISBN());
+			pstmt.setString(2, libraryVO.getTitle());
+			pstmt.setString(3, libraryVO.getAuthor());
+			pstmt.setString(4, libraryVO.getPublisher());
+			pstmt.setString(5, libraryVO.getPublished_date());
+			int r = pstmt.executeUpdate();
+			System.out.println(r + " 건이 수정됨");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionManager.close(null, pstmt, conn);
 		}
-	
-	//insert
+	}
+
+	// insert
 	public int insert(LibraryVO libraryVO) {
 		int r = 0;
 		try {
-			//1.DB연결
+			// 1.DB연결
 			conn = ConnectionManager.getConnnect();
-			//2.SQL 구문 실행
-			String sql = "INSERT INTO book(ISBN, title, author, publisher, published_date)"
-			+ " VALUES (?, ?, ?, ?, ?)"; // ? , sysdate
+			// 2.SQL 구문 실행
+			String sql = "INSERT INTO book(ISBN, title, author, publisher, published_date)" + " VALUES (?, ?, ?, ?, ?)"; // ?
+																															// ,
+																															// sysdate
 			pstmt = conn.prepareStatement(sql); // 예외처리?
 			pstmt.setString(1, libraryVO.getISBN());
 			pstmt.setString(2, libraryVO.getTitle());
@@ -155,18 +150,87 @@ public class LibraryDAO {
 			pstmt.setString(4, libraryVO.getPublisher());
 			pstmt.setString(5, libraryVO.getPublished_date());
 			r = pstmt.executeUpdate();
-			//3.결과 처리
+			// 3.결과 처리
 			System.out.println(r + " 건이 처리됨");
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			//4. 연결해제(DB에 접속 session수는 제한적 그래서 해제해야 됨)
+			// 4. 연결해제(DB에 접속 session수는 제한적 그래서 해제해야 됨)
 			ConnectionManager.close(conn);
+
+		}
+		return r;
+	}
+
+//
+	public LibraryVO librarySearch(String ISBN) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
-		} return r;
+		LibraryVO library = null;
+		
+		try {
+			conn = ConnectionManager.getConnnect();
+			pstmt = conn.prepareStatement("select * from book where id=?");
+			pstmt.setString(1, ISBN);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				library = new LibraryVO();
+			library.setISBN(rs.getString(1));
+			library.setTitle(rs.getString(2));
+			library.setAuthor(rs.getString(3));
+			library.setPublisher(rs.getString(4));
+			library.setPublished_date(rs.getString(5));
+			}
+		} catch (Exception e) {
+			System.out.println("오류 발생 : " + e);
+		} finally {
+			ConnectionManager.close(conn);
+		}
+		return library;
 	}
 	
-	//select count(ISBN) from book where 꺼내올 정보
+	public void libraryUpdate(LibraryVO library) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = ConnectionManager.getConnnect();
+			pstmt = conn.prepareStatement("update book set ISBN=?, title=?, author=? publisher=? published_date=?");
+			pstmt.setString(1, library.getISBN());
+			pstmt.setString(2, library.getTitle());
+			pstmt.setString(3, library.getAuthor());
+			pstmt.setString(4, library.getPublisher());
+			pstmt.setString(5, library.getPublished_date());
+			pstmt.executeUpdate();
+		
+		} catch (Exception ex) {
+			System.out.println("오류 발생 : " + ex);
+		} finally {
+			ConnectionManager.close(conn);
+		}
+	}
+	
+	public void libraryDelete(String ISBN) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = ConnectionManager.getConnnect();
+			pstmt = conn.prepareStatement("delete from book where ISBN=?");
+			pstmt.setString(1, ISBN);
+			pstmt.executeUpdate();
+			
+		} catch (Exception ex) {
+			System.out.println("오류 발생 : " + ex);
+		} finally {
+			ConnectionManager.close(conn);
+		}
+		
+	}
+//	
+	// select count(ISBN) from book where 꺼내올 정보
 
 }
