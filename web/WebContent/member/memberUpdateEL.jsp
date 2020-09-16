@@ -1,12 +1,11 @@
 <%@page import="member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>memberUpdateEL.jsp</title>
 <script>
 	function inputCheck() {
 		if (frm.id.value == "") {
@@ -38,39 +37,32 @@
 </head>
 <body>
 	<%@include file="/common/header.jsp"%>
-	<%MemberVO member = (MemberVO)session.getAttribute("login"); %>
 	<h1 class="page_title">멤버 수정</h1>
 		<div class="regist">
 			<form method="post" name="frm" id="frm" action="memberUpdate"
 				onsubmit="inputCheck()">
 				<div>
 					<label for="id">ID</label>
-					<input id="id" name="id" type="text" value="<%=member.getId() %>" readonly="readonly">
+					<input id="id" name="id" type="text" value="${login.id }" readonly="readonly">
 				</div>
 				<div>
 					<label for="pw">PW</label>
-					<input id="pw" name="pw" type="password" value="<%=member.getPw()%>">
+					<input id="pw" name="pw" type="password" value="${login.pw }">
 				</div>
 				<div>
 					<label for="gender">성별</label>
-					<input type="radio" name="gender" value="male" 
-						<c:if test="${login.gender=='male'}">checked="checked"</c:if>	
-					>남
-					<input type="radio" name="gender" value="female" 
-						<c:if test="${login.gender=='female'}">checked="checked"</c:if>
-					>여
+					<input type="radio" name="gender" value="male">남
+					<input type="radio" name="gender" value="female">여
 				</div>
 				<div>
 					<label for="reason">가입동기</label>
-					<textarea id="reason" name="reason"><%=member.getReason()%></textarea>
+					<textarea id="reason" name="reason">${login.reason }</textarea>
 				</div>
 				<div>
 					<label for="job">직업</label> <select name="job" id="job" size="3">
 						<option value="">선택</option>
-						<option value="program" 
-							<%if(member.getJob().equals("program")){out.print("selected='selected'");} %>>프로그래머</option>
-						<option value="design"
-							<%if(member.getJob().equals("program")){out.print("selected='selected'");} %>>디자이너</option>
+						<option value="program">프로그래머</option>
+						<option value="design">디자이너</option>
 					</select>
 				</div>
 				<div>
@@ -79,12 +71,9 @@
 				</div>
 				<div>
 					<label for="hobby">취미</label>
-					<input type="checkbox" name="hobby" value="read"
-					 	<%if(member.getHobby() != null && member.getHobby().contains("read")){out.print("checked='checked'");} %>>독서
-					<input type="checkbox" name="hobby" value="game"
-						<%if(member.getHobby() != null && member.getHobby().contains("game")){out.print("checked='checked'");} %>>게임
-					<input type="checkbox" name="hobby" value="ski"
-						<%if(member.getHobby() != null && member.getHobby().contains("ski")){out.print("checked='checked'");} %>>스키
+					<input type="checkbox" name="hobby" value="read">독서
+					<input type="checkbox" name="hobby" value="game">게임
+					<input type="checkbox" name="hobby" value="ski">스키
 				</div>
 				<div>
 					<button type="reset">초기화</button>

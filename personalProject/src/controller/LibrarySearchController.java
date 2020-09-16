@@ -1,4 +1,4 @@
-package library;
+package controller;
 
 import java.io.IOException;
 
@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.Controller;
 import common.HttpUtil;
+import library.LibraryDAO;
+import library.LibraryVO;
 
 public class LibrarySearchController implements Controller {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws
@@ -17,11 +19,11 @@ public class LibrarySearchController implements Controller {
 		String title = request.getParameter("title");
 		String path = null;
 		if (title.equals("search"))
-			path = "/librarySearch.jsp";
+			path = "/library/librarySearch.jsp";
 		else if (title.equals("update"))
-			path = "/libraryUpdate.jsp";
+			path = "/library/libraryUpdate.jsp";
 		else if (title.equals("delete"))
-			path = "/libraryDelete.jsp";
+			path = "/library/libraryDelete.jsp";
 		// 유효성 체크
 		if (ISBN.isEmpty()) {
 			request.setAttribute("error", "ISBN을 입력해주시기 바랍니다.");

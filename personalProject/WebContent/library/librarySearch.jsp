@@ -11,7 +11,7 @@
 <h3>도서정보 검색</h3>
 
 ${error}
-<form action="librarySearch.do" method="post">
+<form action="../librarySearch.do" method="post">
 	TITLE: <input type="text" name="id"/>
 	<input type="hidden" name="ISBN" value="search"/>
 	<input type="submit" value="검색"/>

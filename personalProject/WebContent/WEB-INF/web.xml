@@ -7,7 +7,7 @@
   <display-name>personalProject</display-name>
   <servlet>
   	<servlet-name>front</servlet-name>
-  	<servlet-class></servlet-class>
+  	<servlet-class>library.FrontController</servlet-class>
   	<init-param>
   		<param-name></param-name>
   		<param-value></param-value>

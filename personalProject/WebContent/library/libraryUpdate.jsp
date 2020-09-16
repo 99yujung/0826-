@@ -10,7 +10,7 @@
 <body>
 	<h3>수정 정보 검색</h3>
 	${error}
-	<form action="librarySearch.do" method="post">
+	<form action="../librarySearch.do" method="post">
 		Title: <input type="text" name="id" />
 		<input type="hidden" name="ISBN" value="update"/>
 		<input type="submit" value="검색" />

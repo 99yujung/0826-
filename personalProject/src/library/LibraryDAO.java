@@ -1,6 +1,7 @@
 package library;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -23,7 +24,70 @@ public class LibraryDAO {
 	 * 테이블명 book_information rename to book 컬럼명 name to title, ISBN to ISBN 컬럼 삭제
 	 * book_size
 	 */
-
+/*
+	private static LibraryDAO dao = new LibraryDAO();
+	private LibraryDAO(){ }
+	public static LibraryDAO getInstance() {
+		return dao;
+	}
+	
+	public Connection connect() {
+		Connection conn = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",
+					"jsp", "jsp");
+		} catch (Exception ex) {
+			System.out.println("오류 발생 : " + ex);
+		}
+		return conn;
+	}
+	
+	public void close(Connection conn, PreparedStatement ps, ResultSet rs) {
+		if (ps != null) {
+			try {
+				ps.close();
+			} catch (Exception ex) {
+				System.out.println("오류 발생 : " + ex);
+			}
+		}
+		close(conn, ps);
+	}
+	
+	public void close(Connection conn, PreparedStatement ps) {
+		if (ps != null) {
+			try {
+				ps.close();
+			} catch (Exception ex) {
+				System.out.println("오류 발생 : " + ex);
+			}
+		}
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (Exception ex) {
+				System.out.println("오류 발생 : " + ex);
+			}
+		}
+	}
+	
+	public void libraryInsert(LibraryVO library) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = connect();
+			pstmt = conn.prepareStatement("insert into library value(?,?,?,?,?)");
+			pstmt.setString(1, library.getISBN());
+			pstmt.setString(2, library.getTitle());
+			pstmt.setString(3, library.getAuthor());
+			pstmt.setString(4, library.getPublisher());
+			pstmt.setString(5, library.getPublished_date());
+		} catch (Exception ex) {
+			System.out.println("오류 발생 : " + ex);
+		}
+	}
+	*/
+	// ======================
 	// 전역 변수
 	Connection conn;
 	PreparedStatement pstmt;
@@ -168,9 +232,9 @@ public class LibraryDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		LibraryVO library = null;
-		
+
 		try {
 			conn = ConnectionManager.getConnnect();
 			pstmt = conn.prepareStatement("select * from book where id=?");
@@ -178,11 +242,11 @@ public class LibraryDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				library = new LibraryVO();
-			library.setISBN(rs.getString(1));
-			library.setTitle(rs.getString(2));
-			library.setAuthor(rs.getString(3));
-			library.setPublisher(rs.getString(4));
-			library.setPublished_date(rs.getString(5));
+				library.setISBN(rs.getString(1));
+				library.setTitle(rs.getString(2));
+				library.setAuthor(rs.getString(3));
+				library.setPublisher(rs.getString(4));
+				library.setPublished_date(rs.getString(5));
 			}
 		} catch (Exception e) {
 			System.out.println("오류 발생 : " + e);
@@ -191,11 +255,11 @@ public class LibraryDAO {
 		}
 		return library;
 	}
-	
+
 	public void libraryUpdate(LibraryVO library) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			conn = ConnectionManager.getConnnect();
 			pstmt = conn.prepareStatement("update book set ISBN=?, title=?, author=? publisher=? published_date=?");
@@ -205,32 +269,60 @@ public class LibraryDAO {
 			pstmt.setString(4, library.getPublisher());
 			pstmt.setString(5, library.getPublished_date());
 			pstmt.executeUpdate();
-		
+
 		} catch (Exception ex) {
 			System.out.println("오류 발생 : " + ex);
 		} finally {
 			ConnectionManager.close(conn);
 		}
 	}
-	
+
 	public void libraryDelete(String ISBN) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			conn = ConnectionManager.getConnnect();
 			pstmt = conn.prepareStatement("delete from book where ISBN=?");
 			pstmt.setString(1, ISBN);
 			pstmt.executeUpdate();
-			
+
 		} catch (Exception ex) {
 			System.out.println("오류 발생 : " + ex);
 		} finally {
 			ConnectionManager.close(conn);
 		}
-		
+
 	}
-//	
+
+	public ArrayList<LibraryVO> libraryList() {
+		ArrayList<LibraryVO> list = new ArrayList<LibraryVO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		LibraryVO library = null;
+		try {
+			conn = ConnectionManager.getConnnect();
+			pstmt = conn.prepareStatement("select * from book");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				library = new LibraryVO();
+				library.setISBN(rs.getString(1));
+				library.setTitle(rs.getString(2));
+				library.setAuthor(rs.getString(3));
+				library.setPublisher(rs.getString(4));
+				library.setPublished_date(rs.getString(5));
+				list.add(library);
+			}
+		} catch (Exception ex) {
+			System.out.println("오류 발생 : " + ex);
+		} finally {
+			ConnectionManager.close(conn);
+		}
+		return list;
+	}
+
 	// select count(ISBN) from book where 꺼내올 정보
 
 }
